@@ -38,3 +38,7 @@ export async function getBarangays(req: Request, res: Response) {
 export async function getValidIds(req: Request, res: Response) {
     
 }
+
+export async function getQuestionsAndAnswers(req: Request, res: Response) {
+    
+}

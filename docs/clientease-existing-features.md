@@ -10,10 +10,10 @@
 - `POST /auth/otp/resend`
 
 ### HTTP GET METHODS
-- `GET /countries`
-- `GET /regions`
-- `GET /cities-and-municipalities`
-- `GET /barangays`
-- `GET /questions`
-- `GET /valid-ids`
+- `GET references/countries`
+- `GET references/regions`
+- `GET references/cities-and-municipalities`
+- `GET references/barangays`
+- `GET references/questions`
+- `GET references/valid-ids`
 - `GET /investor-summary-information/{:id}`
