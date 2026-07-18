@@ -10,12 +10,15 @@ const baseUrl = process.env.BASE_URL || '';
 
 app.use(express.json());
 
-app.get(`${baseUrl}/health`, (req: Request, res: Response<HealthResponse>) => {
-    res.status(200).send({
+app.get(`${baseUrl}/health`, (res: Response<HealthResponse>) => {
+
+    const response: HealthResponse = {
         timestamp: new Date().toISOString(),
         message: 'Health check successful',
         isHealthy: true
-    })
+    };
+
+    res.status(200).send(response);
 });
 
 app.use(`${baseUrl}/references`, references);
