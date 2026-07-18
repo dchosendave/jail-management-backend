@@ -1,0 +1,17 @@
+services:
+  postgres-db:
+    image: postgres:latest
+    container_name: clientease-database
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: default
+      POSTGRES_DB: clientease
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+      # OPTIONAL: Uncomment the line below if you want to run startup scripts automatically
+      # - ./database:/docker-entrypoint-initdb.d
+
+volumes:
+  postgres_data:
