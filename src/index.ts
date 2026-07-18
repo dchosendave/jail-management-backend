@@ -1,8 +1,12 @@
-import dotenv from 'dotenv/config';
+import dotenv from 'dotenv';
 import express, { type Express, type Request, type Response } from 'express';
 import auth from './auth/auth.routes.js';
 import references from './references/references.routes.js';
 import type { HealthResponse } from './types/responses.js';
+
+dotenv.config({
+    debug: false
+});
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
@@ -10,7 +14,7 @@ const baseUrl = process.env.BASE_URL || '';
 
 app.use(express.json());
 
-app.get(`${baseUrl}/health`, (res: Response<HealthResponse>) => {
+app.get(`${baseUrl}/health`, (req: Request, res: Response<HealthResponse>) => {
 
     const response: HealthResponse = {
         timestamp: new Date().toISOString(),
@@ -18,7 +22,7 @@ app.get(`${baseUrl}/health`, (res: Response<HealthResponse>) => {
         isHealthy: true
     };
 
-    res.status(200).send(response);
+    return res.status(200).send(response);
 });
 
 app.use(`${baseUrl}/references`, references);
