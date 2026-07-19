@@ -1,4 +1,4 @@
-import { integer, varchar, pgTable, date, timestamp } from 'drizzle-orm/pg-core';
+import { integer, varchar, pgTable, date, timestamp, foreignKey } from 'drizzle-orm/pg-core';
 import { facilities } from './facilities.schema.js';
 
 export const personnel = pgTable('personnel', {
@@ -17,13 +17,28 @@ export const personnel = pgTable('personnel', {
     dateHired: date('date_hired').notNull(),
     status: varchar('status', { length: 20 }).notNull().default('active'),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-    updatedAt: timestamp('updated_at', { withTimezone: true })
-});
+    createdBy: integer('created_by').notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true}),
+    updatedBy: integer('updated_by')
+}, (table) => [
+    foreignKey({
+        columns: [table.createdBy],
+        foreignColumns: [table.personnelId],
+        name: 'personnel_created_by_fk'
+    }),
+    foreignKey({
+        columns: [table.updatedBy],
+        foreignColumns: [table.personnelId],
+        name: 'personnel_updated_by_fk'
+    })
+]);
 
 export const personnelAssignments = pgTable('personnel_assignments', {
     personnelAssignmentId: integer('personnel_assignment_id').primaryKey().generatedAlwaysAsIdentity(),
     personnelId: integer('personnel_id').references(() => personnel.personnelId).notNull(),
     facilityId: integer('facility_id').references(() => facilities.facilityId).notNull(),
     assignedAt: timestamp('assigned_at', { withTimezone: true }).notNull().defaultNow(),
-    relievedAt: timestamp('relieved_at', { withTimezone: true })
+    assignedBy: integer('assigned_by').references(() => personnel.personnelId).notNull(),
+    relievedAt: timestamp('relieved_at', { withTimezone: true }),
+    relievedBy: integer('relieved_by').references(() => personnel.personnelId)
 });

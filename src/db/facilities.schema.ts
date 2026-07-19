@@ -1,4 +1,5 @@
 import { boolean, date, foreignKey, integer, pgTable, timestamp, varchar } from 'drizzle-orm/pg-core';
+import { personnel } from './personnel.schema.js';
 
 export const facilities = pgTable("facilities", {
     facilityId: integer('facility_id').primaryKey().generatedAlwaysAsIdentity(),
@@ -12,6 +13,8 @@ export const facilities = pgTable("facilities", {
     barangayId: integer('barangay_id').notNull(),
     contactNumber: varchar('contact_number', { length: 30} ),
     status: boolean('status').notNull().default(true),
-    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
-    updatedAt: timestamp('updated_at', { withTimezone: true })
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    createdBy: integer('created_by').references(() => personnel.personnelId).notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true}),
+    updatedBy: integer('updated_by').references(() => personnel.personnelId)
 });
