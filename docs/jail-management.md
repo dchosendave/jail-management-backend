@@ -59,3 +59,4 @@
 - `GET    /references/barangays`
 - `GET    /references/valid-ids`
 - `GET    /references/questions`
+ry-information/{:id}`

@@ -89,7 +89,7 @@
 
 ## Table Definitions
 
-### 1. `facilities`
+### 1. `facilities` [x]
 The jail/detention facility itself (e.g. "Makati City Jail — Male Dormitory").
 
 | Column | Type | Constraints | Description |
@@ -108,7 +108,7 @@ The jail/detention facility itself (e.g. "Makati City Jail — Male Dormitory").
 | `created_at` | `timestamptz` | DEFAULT now() | — |
 | `updated_at` | `timestamptz` | DEFAULT now() | — |
 
-### 2. `cells`
+### 2. `cells` [x]
 A housing unit (cell, dormitory, or isolation) within a facility.
 
 | Column | Type | Constraints | Description |
@@ -120,7 +120,7 @@ A housing unit (cell, dormitory, or isolation) within a facility.
 | `capacity` | `integer` | NOT NULL | Max occupants |
 | `status` | `varchar(20)` | NOT NULL, DEFAULT `'active'` | `active`, `under_maintenance`, `closed` |
 
-### 3. `inmates`
+### 3. `inmates` [x]
 The person deprived of liberty (PDL) — master record.
 
 | Column | Type | Constraints | Description |
@@ -150,7 +150,7 @@ The person deprived of liberty (PDL) — master record.
 | `created_at` | `timestamptz` | DEFAULT now() | — |
 | `updated_at` | `timestamptz` | DEFAULT now() | — |
 
-### 4. `cell_assignments`
+### 4. `cell_assignments` [x]
 Tracks which cell an inmate is housed in (with history).
 
 | Column | Type | Constraints | Description |
@@ -161,7 +161,7 @@ Tracks which cell an inmate is housed in (with history).
 | `assigned_at` | `timestamptz` | NOT NULL, DEFAULT now() | When assigned |
 | `reassigned_at` | `timestamptz` | | When moved out (null = currently here) |
 
-### 5. `personnel`
+### 5. `personnel` [x]
 Jail officers and non-uniformed personnel.
 
 | Column | Type | Constraints | Description |
@@ -183,7 +183,7 @@ Jail officers and non-uniformed personnel.
 | `created_at` | `timestamptz` | DEFAULT now() | — |
 | `updated_at` | `timestamptz` | DEFAULT now() | — |
 
-### 6. `personnel_assignments`
+### 6. `personnel_assignments` [x]
 Which facility an officer is assigned to (with history).
 
 | Column | Type | Constraints | Description |
@@ -194,7 +194,7 @@ Which facility an officer is assigned to (with history).
 | `assigned_at` | `timestamptz` | NOT NULL, DEFAULT now() | Start of assignment |
 | `relieved_at` | `timestamptz` | | End of assignment (null = current) |
 
-### 7. `bookings`
+### 7. `bookings` [x]
 Every time an inmate is admitted into the facility. One inmate can have multiple bookings over time (re-admissions).
 
 | Column | Type | Constraints | Description |
@@ -219,7 +219,7 @@ Every time an inmate is admitted into the facility. One inmate can have multiple
 | `status` | `varchar(20)` | NOT NULL, DEFAULT `'active'` | `active`, `released`, `transferred` |
 | `created_at` | `timestamptz` | DEFAULT now() | — |
 
-### 8. `committing_courts`
+### 8. `committing_courts` [x]
 Reference table for courts that issue commitment orders.
 
 | Column | Type | Constraints | Description |
@@ -231,7 +231,7 @@ Reference table for courts that issue commitment orders.
 | `city_municipality_id` | `integer` | FK → cities_municipalities | Location |
 | `address` | `varchar(255)` | | — |
 
-### 9. `cases`
+### 9. `cases` [x]
 Criminal case records independent of inmates (one case can involve multiple PDLs).
 
 | Column | Type | Constraints | Description |
@@ -247,7 +247,7 @@ Criminal case records independent of inmates (one case can involve multiple PDLs
 | `created_at` | `timestamptz` | DEFAULT now() | — |
 | `updated_at` | `timestamptz` | DEFAULT now() | — |
 
-### 10. `inmate_cases`
+### 10. `inmate_cases` [x]
 Join table linking inmates to cases (M:M).
 
 | Column | Type | Constraints | Description |
@@ -259,7 +259,7 @@ Join table linking inmates to cases (M:M).
 
 UNIQUE constraint on `(inmate_id, case_id)`.
 
-### 11. `visitors`
+### 11. `visitors` [x]
 People registered to visit inmates.
 
 | Column | Type | Constraints | Description |
@@ -277,7 +277,7 @@ People registered to visit inmates.
 | `status` | `varchar(20)` | NOT NULL, DEFAULT `'active'` | `active`, `banned` |
 | `created_at` | `timestamptz` | DEFAULT now() | — |
 
-### 12. `visits`
+### 12. `visits` [x]
 Log of each visitation event.
 
 | Column | Type | Constraints | Description |
@@ -294,7 +294,7 @@ Log of each visitation event.
 | `remarks` | `text` | | Notes |
 | `created_at` | `timestamptz` | DEFAULT now() | — |
 
-### 13. `attachments`
+### 13. `attachments` [x]
 Polymorphic file attachments. Can link to any entity.
 
 | Column | Type | Constraints | Description |
