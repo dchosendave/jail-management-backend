@@ -1,5 +1,5 @@
 import express from 'express';
-import { send, verify, resend, changePassword, forgotPassword } from '@/auth/auth.js';
+import { send, verify, resend, changePassword, forgotPassword } from '@/auth/auth.handlers.js';
 
 const router = express.Router();
 

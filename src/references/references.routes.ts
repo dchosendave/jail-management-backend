@@ -1,5 +1,5 @@
 import express from 'express';
-import { getCountries, getRegions, getProvinces, getCitiesAndMunicipalities, getBarangays, getValidIds, getQuestionsAndAnswers } from '@/references/references.js';
+import { getCountries, getRegions, getProvinces, getCitiesAndMunicipalities, getBarangays, getValidIds, getQuestionsAndAnswers } from '@/references/references.handlers.js';
 
 const router = express.Router();
 

@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import { AuthMessages } from '@/shared/auth-messages.js';
+import { AuthMessages } from '@/auth/auth.constants.js';
 
 const VALID_PURPOSES = ['create_account', 'update_account', 'change_password'] as const;
 

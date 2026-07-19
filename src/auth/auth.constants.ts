@@ -6,7 +6,8 @@ export const AuthMessages = {
     PASSWORD_TOO_SHORT: "Password must be at least 8 characters long.",
     PASSWORD_MISMATCH: "Password doesn't match. Please try again.",
     
-    INVALID_LOGIN: "Invalid email or password. Please try again."
+    INVALID_LOGIN: "Invalid email or password. Please try again.",
+    SESSION_EXPIRED: "Session expired. Please log in again."
 } as const;
 
 export type AuthMessage = typeof AuthMessages[keyof typeof AuthMessages];

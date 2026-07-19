@@ -7,7 +7,8 @@ import {
     type SendOtpRequest,
     type ResendOtpRequest,
     type VerifyOtpRequest
-} from '@/types/requests.js';
+} from '@/auth/auth.schemas.js';
+import * as z from 'zod';
 
 export async function send(req: Request, res: Response) {
 
@@ -62,7 +63,7 @@ export async function changePassword(req: Request, res: Response) {
 
     if (!result.success){
         return res.status(400).send({
-            error: result.error.issues
+            error: z.prettifyError(result.error)
         });
     }
 
