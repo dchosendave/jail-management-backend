@@ -27,7 +27,7 @@ export const cellAssignments = pgTable('cell_assignments', {
     reassignedBy: integer('relieved_by').references(() => personnel.personnelId)
 });
 
-export const relations = defineRelations({ facilities, cells }, (r) => ({
+export const cellRelations = defineRelations({ facilities, cells }, (r) => ({
     facilities: {
         cells: r.many.cells()
     },
