@@ -18,7 +18,6 @@ app.get(`${baseUrl}/health`, (req: Request, res: Response<HealthResponse>) => {
 
     const response: HealthResponse = {
         timestamp: new Date().toISOString(),
-        message: 'Health check successful',
         isHealthy: true
     };
 
