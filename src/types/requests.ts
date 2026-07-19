@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import { AuthMessages, type AuthMessageType } from '../shared/auth-messages.js';
+import { AuthMessages } from '@/shared/auth-messages.js';
 
 const VALID_PURPOSES = ['create_account', 'update_account', 'change_password'] as const;
 
@@ -23,19 +23,19 @@ export const VerifyOtpSchema = z.object({
 
 const passwordField = z
     .string()
-    .min(8, AuthMessages.PASSWORD_MIN_LENGTH )
+    .min(8, AuthMessages.PASSWORD_TOO_SHORT )
     .max(20)
     .refine((password) => /[A-Z]/.test(password), {
-        error: AuthMessages.PASSWORD_MUST_HAVE_UPPERCASE_LETTER
+        error: AuthMessages.PASSWORD_REQUIRES_UPPERCASE
     })
     .refine((password) => /[a-z]/.test(password), {
-        error: AuthMessages.PASSWORD_MUST_HAVE_LOWERCASE_LETTER
+        error: AuthMessages.PASSWORD_REQUIRES_LOWERCASE
     })
     .refine((password) => /[0-9]/.test(password), {
-        error: AuthMessages.PASSWORD_MUST_HAVE_NUMBER_CHARACTER
+        error: AuthMessages.PASSWORD_REQUIRES_NUMBER
     })
     .refine((password) => /[!@#$%^&*()]/.test(password), {
-        error: AuthMessages.PASSWORD_MUST_HAVE_SPECIAL_CHARACTER
+        error: AuthMessages.PASSWORD_REQUIRES_SPECIAL
     });
 
 export const ChangePasswordSchema = z

@@ -7,7 +7,7 @@ import {
     type SendOtpRequest,
     type ResendOtpRequest,
     type VerifyOtpRequest
-} from '../types/requests.js';
+} from '@/types/requests.js';
 
 export async function send(req: Request, res: Response) {
 

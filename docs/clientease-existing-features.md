@@ -8,6 +8,8 @@
 - `POST /auth/otp/send`
 - `POST /auth/otp/verify`
 - `POST /auth/otp/resend`
+- `POST /auth/change-password`
+- `POST /auth/forgot-password`
 
 ### HTTP GET METHODS
 - `GET references/countries`
