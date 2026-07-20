@@ -3,6 +3,7 @@ import { facilities } from "./facilities.schema.js";
 import { defineRelations } from "drizzle-orm";
 import { inmates } from "./inmates.schema.js";
 import { personnel } from "./personnel.schema.js";
+import { users } from "./users.schema.js";
 
 export const cells = pgTable("cells", {
     cellId: integer('cell_id').primaryKey().generatedAlwaysAsIdentity(),
@@ -12,9 +13,9 @@ export const cells = pgTable("cells", {
     capacity: integer('capacity').notNull(),
     status: varchar('status', { length: 20} ).notNull().default('active'),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-    createdBy: integer('created_by').references(() => personnel.personnelId).notNull(),
+    createdBy: integer('created_by').references(() => users.userId).notNull(),
     updatedAt: timestamp('updated_at', { withTimezone: true}),
-    updatedBy: integer('updated_by').references(() => personnel.personnelId)
+    updatedBy: integer('updated_by').references(() => users.userId)
 });
 
 export const cellAssignments = pgTable('cell_assignments', {
@@ -22,9 +23,9 @@ export const cellAssignments = pgTable('cell_assignments', {
     inmateId: integer('inmate_id').references(() => inmates.inmateId).notNull(),
     cellId: integer('cell_id').references(() => cells.cellId).notNull(),
     assignedAt: timestamp('assigned_at', { withTimezone: true }).notNull().defaultNow(),
-    assignedBy: integer('assigned_by').references(() => personnel.personnelId).notNull(),
+    assignedBy: integer('assigned_by').references(() => users.userId).notNull(),
     reassignedAt: timestamp('reassigned_at', { withTimezone: true }),
-    reassignedBy: integer('relieved_by').references(() => personnel.personnelId)
+    reassignedBy: integer('reassigned_by').references(() => users.userId)
 });
 
 export const cellRelations = defineRelations({ facilities, cells }, (r) => ({

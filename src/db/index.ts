@@ -6,6 +6,7 @@ import { facilities } from './facilities.schema.js';
 import { inmateCases } from './inmate-cases.schema.js';
 import { inmates } from './inmates.schema.js';
 import { personnel, personnelAssignments } from './personnel.schema.js';
+import { visitors } from './visitors.schema.js';
 
 export {
     personnel,
@@ -19,4 +20,5 @@ export {
     cellRelations,
     inmates,
     inmateCases,
+    visitors
 };

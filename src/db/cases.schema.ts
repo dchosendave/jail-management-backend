@@ -1,6 +1,6 @@
 import * as p from 'drizzle-orm/pg-core';
 import { committingCourts } from './committing-courts.schema.js';
-import { personnel } from './personnel.schema.js';
+import { users } from './users.schema.js';
 
 export const cases = p.pgTable('cases', {
     caseId: p.integer('case_id').primaryKey().generatedAlwaysAsIdentity(),
@@ -12,7 +12,7 @@ export const cases = p.pgTable('cases', {
     status: p.varchar('status', { length: 30 }).notNull().default('pending'),
     dateFiled: p.date('date_filed'),
     createdAt: p.timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-    createdBy: p.integer('created_by').references(() => personnel.personnelId).notNull(),
+    createdBy: p.integer('created_by').references(() => users.userId).notNull(),
     updatedAt: p.timestamp('updated_at', { withTimezone: true}),
-    updatedBy: p.integer('updated_by').references(() => personnel.personnelId)
+    updatedBy: p.integer('updated_by').references(() => users.userId)
 });

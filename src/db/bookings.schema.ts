@@ -3,6 +3,7 @@ import { inmates } from './inmates.schema.js';
 import { facilities } from './facilities.schema.js';
 import { committingCourts } from './committing-courts.schema.js';
 import { personnel } from './personnel.schema.js';
+import { users } from './users.schema.js';
 
 export const bookings = pgTable('bookings', {
     bookingId: integer('booking_id').primaryKey().generatedAlwaysAsIdentity(),
@@ -24,7 +25,7 @@ export const bookings = pgTable('bookings', {
     receivingOfficerId: integer('receiving_officer_id').references(() => personnel.personnelId).notNull(),
     status: varchar('status', { length: 20 }).notNull().default('active'),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-    createdBy: integer('created_by').references(() => personnel.personnelId).notNull(),
+    createdBy: integer('created_by').references(() => users.userId).notNull(),
     updatedAt: timestamp('updated_at', { withTimezone: true}),
-    updatedBy: integer('updated_by').references(() => personnel.personnelId)
+    updatedBy: integer('updated_by').references(() => users.userId)
 });

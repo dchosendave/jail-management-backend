@@ -259,7 +259,7 @@ Join table linking inmates to cases (M:M).
 
 UNIQUE constraint on `(inmate_id, case_id)`.
 
-### 11. `visitors` [x]
+### 11. `visitors` []
 People registered to visit inmates.
 
 | Column | Type | Constraints | Description |
@@ -277,7 +277,7 @@ People registered to visit inmates.
 | `status` | `varchar(20)` | NOT NULL, DEFAULT `'active'` | `active`, `banned` |
 | `created_at` | `timestamptz` | DEFAULT now() | — |
 
-### 12. `visits` [x]
+### 12. `visits` []
 Log of each visitation event.
 
 | Column | Type | Constraints | Description |
@@ -294,7 +294,7 @@ Log of each visitation event.
 | `remarks` | `text` | | Notes |
 | `created_at` | `timestamptz` | DEFAULT now() | — |
 
-### 13. `attachments` [x]
+### 13. `attachments` []
 Polymorphic file attachments. Can link to any entity.
 
 | Column | Type | Constraints | Description |
@@ -352,12 +352,49 @@ System user accounts (can be linked to a personnel record).
 | `created_at` | `timestamptz` | DEFAULT now() | — |
 | `updated_at` | `timestamptz` | DEFAULT now() | — |
 
-### `user_roles`
+### `roles`
+Configurable list of roles that can be assigned to users.
+
 | Column | Type | Constraints | Description |
 |---|---|---|---|
 | `id` | `integer` | PK, identity | — |
-| `user_id` | `integer` | FK → users | — |
-| `role` | `varchar(30)` | NOT NULL | `admin`, `warden`, `desk_officer`, `guard`, `viewer` |
+| `name` | `varchar(30)` | NOT NULL, UNIQUE | Role identifier: `admin`, `warden`, `desk_officer`, `guard`, `viewer` |
+| `description` | `text` | | Optional description of the role |
+| `rank` | `integer` | NOT NULL, DEFAULT `0` | Hierarchy level (higher = more privileges) |
+| `status` | `varchar(20)` | NOT NULL, DEFAULT `'active'` | `active`, `inactive` |
+
+### `permissions`
+Seeded list of granular permission keys grouped by module. Permissions are defined in code and synced to this table via seed/migration.
+
+| Column | Type | Constraints | Description |
+|---|---|---|---|
+| `id` | `integer` | PK, identity | — |
+| `name` | `varchar(100)` | NOT NULL, UNIQUE | Permission key, e.g. `inmates:view`, `inmates:create`, `bookings:view` |
+| `group` | `varchar(50)` | NOT NULL | Module group: `inmates`, `personnel`, `facilities`, `bookings`, `cases`, `visits`, `references`, `auth`, `settings` |
+| `description` | `varchar(255)` | | Human-readable description of what this permission grants |
+
+### `role_permissions`
+Maps which permissions a role has. Seeded on deploy; optionally manageable via maintenance UI.
+
+| Column | Type | Constraints | Description |
+|---|---|---|---|
+| `id` | `integer` | PK, identity | — |
+| `role_id` | `integer` | FK → roles, NOT NULL | — |
+| `permission_id` | `integer` | FK → permissions, NOT NULL | — |
+
+UNIQUE constraint on `(role_id, permission_id)`.
+
+### `user_roles`
+Maps which roles are assigned to a user. A user can have multiple roles; their effective permissions are the union of all role permissions.
+
+| Column | Type | Constraints | Description |
+|---|---|---|---|
+| `id` | `integer` | PK, identity | — |
+| `user_id` | `integer` | FK → users, NOT NULL | — |
+| `role_id` | `integer` | FK → roles, NOT NULL | — |
+| `assigned_at` | `timestamptz` | DEFAULT now() | — |
+
+UNIQUE constraint on `(user_id, role_id)`. A user's effective permissions are the union of all permissions from all their assigned roles.
 
 ### `otp_challenges`
 Stores OTP challenges for passwordless authentication.

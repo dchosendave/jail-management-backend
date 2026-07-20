@@ -1,5 +1,6 @@
 import { integer, varchar, date, text, numeric, timestamp, pgTable } from 'drizzle-orm/pg-core';
 import { personnel } from './personnel.schema.js';
+import { users } from './users.schema.js';
 
 export const inmates = pgTable('inmates', {
     inmateId: integer('inmate_id').primaryKey().generatedAlwaysAsIdentity(),
@@ -25,7 +26,7 @@ export const inmates = pgTable('inmates', {
     bloodType: varchar('blood_type', { length: 5}),
     status: varchar('status', { length: 20 }).notNull().default('detained'),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-    createdBy: integer('created_by').references(() => personnel.personnelId).notNull(),
+    createdBy: integer('created_by').references(() => users.userId).notNull(),
     updatedAt: timestamp('updated_at', { withTimezone: true}),
-    updatedBy: integer('updated_by').references(() => personnel.personnelId)
+    updatedBy: integer('updated_by').references(() => users.userId)
 });
