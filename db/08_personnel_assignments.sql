@@ -1,3 +1,5 @@
+drop table if exists personnel_assignments cascade;
+
 CREATE TABLE personnel_assignments (
     personnel_assignment_id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     personnel_id            INTEGER NOT NULL,

@@ -1,3 +1,6 @@
+drop table if exists cases cascade;
+
+
 CREATE TABLE cases (
     case_id             INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     case_number         VARCHAR(50) NOT NULL,

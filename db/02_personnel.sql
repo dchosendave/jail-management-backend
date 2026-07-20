@@ -1,3 +1,5 @@
+drop table if exists personnel cascade;
+
 CREATE TABLE personnel (
     personnel_id    INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     employee_number VARCHAR(30) NOT NULL,

@@ -1,3 +1,5 @@
+drop table if exists committing_courts cascade;
+
 CREATE TABLE committing_courts (
     committing_court_id     INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     committing_court_name   VARCHAR(150) NOT NULL,

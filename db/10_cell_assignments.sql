@@ -1,3 +1,5 @@
+drop table if exists cell_assignments cascade;
+
 CREATE TABLE cell_assignments (
     cell_assignment_id  INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     inmate_id           INTEGER NOT NULL,

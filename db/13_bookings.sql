@@ -1,3 +1,5 @@
+drop table if exists bookings cascade;
+
 CREATE TABLE bookings (
     booking_id              INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     inmate_id               INTEGER NOT NULL,

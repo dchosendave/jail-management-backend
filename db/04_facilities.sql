@@ -1,3 +1,5 @@
+drop table if exists facilities cascade;
+
 CREATE TABLE facilities (
     facility_id             INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     facility_name           VARCHAR(150) NOT NULL,

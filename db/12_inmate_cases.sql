@@ -1,3 +1,5 @@
+drop table if exists inmate_cases cascade;
+
 CREATE TABLE inmate_cases (
     inmate_case_id  INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     inmate_id       INTEGER NOT NULL,

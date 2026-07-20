@@ -1,3 +1,5 @@
+drop table if exists inmates cascade;
+
 CREATE TABLE inmates (
     inmate_id               INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     inmate_number           VARCHAR(20) NOT NULL,

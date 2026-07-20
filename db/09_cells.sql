@@ -1,3 +1,5 @@
+drop table if exists cells cascade;
+
 CREATE TABLE cells (
     cell_id     INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     facility_id INTEGER NOT NULL,

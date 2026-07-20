@@ -1,3 +1,5 @@
+drop table if exists visits cascade;
+
 CREATE TABLE visits (
     visit_id            INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     inmate_id           INTEGER NOT NULL,

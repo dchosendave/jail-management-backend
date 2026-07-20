@@ -1,3 +1,5 @@
+drop table if exsits users cascade;
+
 CREATE TABLE users (
     user_id         INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     personnel_id    INTEGER NOT NULL,
