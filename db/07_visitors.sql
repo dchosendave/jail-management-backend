@@ -18,7 +18,6 @@ CREATE TABLE visitors (
     updated_by      INTEGER,
 
     CONSTRAINT fk_visitors_verified_by  FOREIGN KEY (verified_by) REFERENCES personnel (personnel_id),
-    drop table if exists visitors cascade;
     CONSTRAINT fk_visitors_created_by   FOREIGN KEY (created_by)  REFERENCES personnel (personnel_id),
     CONSTRAINT fk_visitors_updated_by   FOREIGN KEY (updated_by)
       REFERENCES personnel (personnel_id)

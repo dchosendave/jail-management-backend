@@ -1,4 +1,4 @@
-drop table if exsits users cascade;
+drop table if exists users cascade;
 
 CREATE TABLE users (
     user_id         INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
