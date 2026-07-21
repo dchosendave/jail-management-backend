@@ -7,7 +7,6 @@ import {
     ForgotPasswordSchema,
     type ForgotPasswordRequest
 } from './auth.schemas.js';
-import * as z from 'zod';
 import { db } from '../db/connection.js';
 
 export async function send(req: Request, res: Response) {

@@ -3,6 +3,7 @@ import express, { type Express, type Request, type Response } from 'express';
 import auth from '@/auth/auth.routes.js';
 import references from '@/references/references.routes.js';
 import type { HealthResponse } from '@/types/responses.js';
+import users from '@/users/users.routes.js';
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
@@ -22,6 +23,7 @@ app.get(`${baseUrl}/health`, (req: Request, res: Response<HealthResponse>) => {
 
 app.use(`${baseUrl}/references`, references);
 app.use(`${baseUrl}/auth`, auth);
+app.use(`${baseUrl}/users`, users);
 
 app.listen(port, () => {
     console.log(`[START]    Server is running at http://localhost:${port}`);
