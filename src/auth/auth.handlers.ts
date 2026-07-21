@@ -4,22 +4,13 @@ import {
     ResendOtpSchema,
     VerifyOtpSchema,
     ChangePasswordSchema,
-    type SendOtpRequest,
-    type ResendOtpRequest,
-    type VerifyOtpRequest
-} from '@/auth/auth.schemas.js';
+    ForgotPasswordSchema,
+    type ForgotPasswordRequest
+} from './auth.schemas.js';
 import * as z from 'zod';
+import { db } from '../db/connection.js';
 
 export async function send(req: Request, res: Response) {
-
-    const body = SendOtpSchema.safeParse(req.body);
-
-    if (!body.success){
-        return res.status(400).send({
-            errors: body.error.issues
-        });
-    }
-
     return res.status(201).send({
         purpose: 'something',
         challengeToken: 'something hashed and all that shit',
@@ -29,15 +20,6 @@ export async function send(req: Request, res: Response) {
 }
 
 export async function verify(req: Request, res: Response) {
-
-    const body = ResendOtpSchema.safeParse(req.body);
-
-    if (!body.success){
-        return res.status(400).send({
-            errors: body.error.issues
-        });
-    }
-
     return res.status(201).send({
         isSuccess: true,
         jwt: 'something',
@@ -58,15 +40,6 @@ export async function resend(req: Request, res: Response) {
 }
 
 export async function changePassword(req: Request, res: Response) {
-
-    const result = ChangePasswordSchema.safeParse(req.body);
-
-    if (!result.success){
-        return res.status(400).send({
-            error: z.prettifyError(result.error)
-        });
-    }
-
     return res.status(201).send({
         message: 'change password is successful'
     });
@@ -74,4 +47,21 @@ export async function changePassword(req: Request, res: Response) {
 
 export async function forgotPassword(req: Request, res: Response) {
 
+    const body: ForgotPasswordRequest = req.body;
+
+    const user = await db.query.users.findFirst({
+        where: {
+            email: body.email
+        }
+    });
+
+    if (user) {
+        return res.status(200).send({
+            message: 'email is found. sending forgot password temporary link.'
+        });
+    }
+
+    return res.status(400).send({
+        message: 'an error occurred.'
+    });
 }

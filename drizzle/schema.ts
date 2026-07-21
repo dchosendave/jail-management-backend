@@ -1,7 +1,21 @@
-import { pgTable, integer, varchar, date, timestamp, time, text, boolean, numeric, foreignKey, type AnyPgColumn, primaryKey, unique } from "drizzle-orm/pg-core"
+import { pgTable, integer, varchar, text, timestamp, date, time, boolean, numeric, foreignKey, type AnyPgColumn, primaryKey, unique } from "drizzle-orm/pg-core"
 import { sql } from "drizzle-orm"
 
 
+
+export const barangays = pgTable("barangays", {
+	barangayId: integer("barangay_id").primaryKey().generatedAlwaysAsIdentity(),
+	regionId: integer("region_id").notNull().references(() => regions.regionId),
+	provinceId: integer("province_id").notNull().references(() => provinces.provinceId),
+	cityMunicipalityId: integer("city_municipality_id").notNull().references(() => citiesMunicipalities.cityMunicipalityId),
+	psgcCode: varchar("psgc_code", { length: 255 }).notNull(),
+	barangayCode: varchar("barangay_code", { length: 10 }).notNull(),
+	barangayDescription: text("barangay_description").notNull(),
+	createdBy: integer("created_by").notNull().references(() => users.userId),
+	createdAt: timestamp("created_at", { withTimezone: true }).default(sql`now()`).notNull(),
+	updatedBy: integer("updated_by").references(() => users.userId),
+	updatedAt: timestamp("updated_at", { withTimezone: true }),
+});
 
 export const bookings = pgTable("bookings", {
 	bookingId: integer("booking_id").primaryKey().generatedAlwaysAsIdentity(),
@@ -68,6 +82,19 @@ export const cells = pgTable("cells", {
 	updatedBy: integer("updated_by").references(() => users.userId),
 });
 
+export const citiesMunicipalities = pgTable("cities_municipalities", {
+	cityMunicipalityId: integer("city_municipality_id").primaryKey().generatedAlwaysAsIdentity(),
+	regionId: integer("region_id").notNull().references(() => regions.regionId),
+	provinceId: integer("province_id").notNull().references(() => provinces.provinceId),
+	psgcCode: varchar("psgc_code", { length: 255 }).notNull(),
+	cityMunicipalityCode: varchar("city_municipality_code", { length: 10 }).notNull(),
+	cityMunicipalityDescription: text("city_municipality_description").notNull(),
+	createdBy: integer("created_by").notNull().references(() => users.userId),
+	createdAt: timestamp("created_at", { withTimezone: true }).default(sql`now()`).notNull(),
+	updatedBy: integer("updated_by").references(() => users.userId),
+	updatedAt: timestamp("updated_at", { withTimezone: true }),
+});
+
 export const committingCourts = pgTable("committing_courts", {
 	committingCourtId: integer("committing_court_id").primaryKey().generatedAlwaysAsIdentity(),
 	committingCourtName: varchar("committing_court_name", { length: 150 }).notNull(),
@@ -82,11 +109,22 @@ export const committingCourts = pgTable("committing_courts", {
 });
 
 export const countries = pgTable("countries", {
-	id: integer().primaryKey().generatedAlwaysAsIdentity(),
+	countryId: integer("country_id").primaryKey().generatedAlwaysAsIdentity(),
 	countryCode: varchar("country_code", { length: 10 }).notNull(),
 	countryName: varchar("country_name", { length: 255 }).notNull(),
 	officialName: varchar("official_name", { length: 255 }).notNull(),
-	isoCode2: varchar("iso_code_2", { length: 2 }),
+	nativeName: varchar("native_name", { length: 255 }).notNull(),
+	capitalCity: varchar("capital_city", { length: 255 }).notNull(),
+	region: varchar({ length: 50 }).notNull(),
+	subRegion: varchar("sub_region", { length: 50 }).notNull(),
+	isoCode2: varchar("iso_code_2", { length: 2 }).notNull(),
+	isoCode3: varchar("iso_code_3", { length: 3 }).notNull(),
+	currencyCode: varchar("currency_code", { length: 3 }).notNull(),
+	phoneCode: varchar("phone_code", { length: 10 }).notNull(),
+	createdBy: integer("created_by").notNull().references(() => users.userId),
+	createdAt: timestamp("created_at", { withTimezone: true }).default(sql`now()`).notNull(),
+	updatedBy: integer("updated_by").references(() => users.userId),
+	updatedAt: timestamp("updated_at", { withTimezone: true }),
 });
 
 export const facilities = pgTable("facilities", {
@@ -180,6 +218,29 @@ export const personnelAssignments = pgTable("personnel_assignments", {
 	relievedBy: integer("relieved_by").references(() => users.userId),
 });
 
+export const provinces = pgTable("provinces", {
+	provinceId: integer("province_id").primaryKey().generatedAlwaysAsIdentity(),
+	regionId: integer("region_id").notNull().references(() => regions.regionId),
+	psgcCode: varchar("psgc_code", { length: 255 }).notNull(),
+	provinceCode: varchar("province_code", { length: 10 }).notNull(),
+	provinceDescription: text("province_description").notNull(),
+	createdBy: integer("created_by").notNull().references(() => users.userId),
+	createdAt: timestamp("created_at", { withTimezone: true }).default(sql`now()`).notNull(),
+	updatedBy: integer("updated_by").references(() => users.userId),
+	updatedAt: timestamp("updated_at", { withTimezone: true }),
+});
+
+export const regions = pgTable("regions", {
+	regionId: integer("region_id").primaryKey().generatedAlwaysAsIdentity(),
+	psgcCode: varchar("psgc_code", { length: 255 }).notNull(),
+	regionCode: varchar("region_code", { length: 10 }).notNull(),
+	regionDescription: text("region_description").notNull(),
+	createdBy: integer("created_by").notNull().references(() => users.userId),
+	createdAt: timestamp("created_at", { withTimezone: true }).default(sql`now()`).notNull(),
+	updatedBy: integer("updated_by").references(() => users.userId),
+	updatedAt: timestamp("updated_at", { withTimezone: true }),
+});
+
 export const users = pgTable("users", {
 	userId: integer("user_id").primaryKey().generatedAlwaysAsIdentity(),
 	personnelId: integer("personnel_id").notNull().references((): AnyPgColumn => personnel.personnelId),
@@ -203,6 +264,17 @@ export const users = pgTable("users", {
 		name: "fk_users_updated_by"
 	}),
 	unique("uq_users_email").on(table.email),	unique("uq_users_personnel_id").on(table.personnelId),]);
+
+export const validIds = pgTable("valid_ids", {
+	id: integer().primaryKey().generatedAlwaysAsIdentity(),
+	idCode: varchar("id_code", { length: 50 }).notNull(),
+	idDescription: text("id_description").notNull(),
+	issuedBy: text("issued_by").notNull(),
+	createdBy: integer("created_by").notNull().references(() => users.userId),
+	createdAt: timestamp("created_at", { withTimezone: true }).default(sql`now()`).notNull(),
+	updatedBy: integer("updated_by").references(() => users.userId),
+	updatedAt: timestamp("updated_at", { withTimezone: true }),
+});
 
 export const visitors = pgTable("visitors", {
 	visitorId: integer("visitor_id").primaryKey().generatedAlwaysAsIdentity(),

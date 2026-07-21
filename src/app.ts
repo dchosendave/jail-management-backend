@@ -1,12 +1,8 @@
-import dotenv from 'dotenv';
+import './env.js';
 import express, { type Express, type Request, type Response } from 'express';
 import auth from '@/auth/auth.routes.js';
 import references from '@/references/references.routes.js';
 import type { HealthResponse } from '@/types/responses.js';
-
-dotenv.config({
-    debug: false
-});
 
 const app: Express = express();
 const port = process.env.PORT || 3000;

@@ -2,6 +2,159 @@ import { defineRelations } from "drizzle-orm";
 import * as schema from "./schema.js";
 
 export const relations = defineRelations(schema, (r) => ({
+	barangays: {
+		citiesMunicipality: r.one.citiesMunicipalities({
+			from: r.barangays.cityMunicipalityId,
+			to: r.citiesMunicipalities.cityMunicipalityId
+		}),
+		userCreatedBy: r.one.users({
+			from: r.barangays.createdBy,
+			to: r.users.userId,
+			alias: "barangays_createdBy_users_userId"
+		}),
+		province: r.one.provinces({
+			from: r.barangays.provinceId,
+			to: r.provinces.provinceId
+		}),
+		region: r.one.regions({
+			from: r.barangays.regionId,
+			to: r.regions.regionId
+		}),
+		userUpdatedBy: r.one.users({
+			from: r.barangays.updatedBy,
+			to: r.users.userId,
+			alias: "barangays_updatedBy_users_userId"
+		}),
+	},
+	citiesMunicipalities: {
+		barangays: r.many.barangays(),
+		userCreatedBy: r.one.users({
+			from: r.citiesMunicipalities.createdBy,
+			to: r.users.userId,
+			alias: "citiesMunicipalities_createdBy_users_userId"
+		}),
+		province: r.one.provinces({
+			from: r.citiesMunicipalities.provinceId,
+			to: r.provinces.provinceId
+		}),
+		region: r.one.regions({
+			from: r.citiesMunicipalities.regionId,
+			to: r.regions.regionId
+		}),
+		userUpdatedBy: r.one.users({
+			from: r.citiesMunicipalities.updatedBy,
+			to: r.users.userId,
+			alias: "citiesMunicipalities_updatedBy_users_userId"
+		}),
+	},
+	users: {
+		barangaysCreatedBy: r.many.barangays({
+			alias: "barangays_createdBy_users_userId"
+		}),
+		barangaysUpdatedBy: r.many.barangays({
+			alias: "barangays_updatedBy_users_userId"
+		}),
+		bookingsCreatedBy: r.many.bookings({
+			alias: "bookings_createdBy_users_userId"
+		}),
+		bookingsUpdatedBy: r.many.bookings({
+			alias: "bookings_updatedBy_users_userId"
+		}),
+		casesCreatedBy: r.many.cases({
+			alias: "cases_createdBy_users_userId"
+		}),
+		casesUpdatedBy: r.many.cases({
+			alias: "cases_updatedBy_users_userId"
+		}),
+		cellAssignmentsAssignedBy: r.many.cellAssignments({
+			alias: "cellAssignments_assignedBy_users_userId"
+		}),
+		cellAssignmentsReassignedBy: r.many.cellAssignments({
+			alias: "cellAssignments_reassignedBy_users_userId"
+		}),
+		cellsCreatedBy: r.many.cells({
+			alias: "cells_createdBy_users_userId"
+		}),
+		cellsUpdatedBy: r.many.cells({
+			alias: "cells_updatedBy_users_userId"
+		}),
+		citiesMunicipalitiesCreatedBy: r.many.citiesMunicipalities({
+			alias: "citiesMunicipalities_createdBy_users_userId"
+		}),
+		citiesMunicipalitiesUpdatedBy: r.many.citiesMunicipalities({
+			alias: "citiesMunicipalities_updatedBy_users_userId"
+		}),
+		inmateCasesCreatedBy: r.many.inmateCases({
+			alias: "inmateCases_createdBy_users_userId"
+		}),
+		inmateCasesUpdatedBy: r.many.inmateCases({
+			alias: "inmateCases_updatedBy_users_userId"
+		}),
+		personnelAssignmentsAssignedBy: r.many.personnelAssignments({
+			alias: "personnelAssignments_assignedBy_users_userId"
+		}),
+		personnelAssignmentsRelievedBy: r.many.personnelAssignments({
+			alias: "personnelAssignments_relievedBy_users_userId"
+		}),
+		provincesCreatedBy: r.many.provinces({
+			alias: "provinces_createdBy_users_userId"
+		}),
+		provincesUpdatedBy: r.many.provinces({
+			alias: "provinces_updatedBy_users_userId"
+		}),
+		userCreatedBy: r.one.users({
+			from: r.users.createdBy,
+			to: r.users.userId,
+			alias: "users_createdBy_users_userId"
+		}),
+		usersCreatedBy: r.many.users({
+			alias: "users_createdBy_users_userId"
+		}),
+		personnel: r.one.personnel({
+			from: r.users.personnelId,
+			to: r.personnel.personnelId
+		}),
+		userUpdatedBy: r.one.users({
+			from: r.users.updatedBy,
+			to: r.users.userId,
+			alias: "users_updatedBy_users_userId"
+		}),
+		usersUpdatedBy: r.many.users({
+			alias: "users_updatedBy_users_userId"
+		}),
+		visitsCreatedBy: r.many.visits({
+			alias: "visits_createdBy_users_userId"
+		}),
+		visitsOfficerOnDutyId: r.many.visits({
+			alias: "visits_officerOnDutyId_users_userId"
+		}),
+		visitsUpdatedBy: r.many.visits({
+			alias: "visits_updatedBy_users_userId"
+		}),
+	},
+	provinces: {
+		barangays: r.many.barangays(),
+		citiesMunicipalities: r.many.citiesMunicipalities(),
+		userCreatedBy: r.one.users({
+			from: r.provinces.createdBy,
+			to: r.users.userId,
+			alias: "provinces_createdBy_users_userId"
+		}),
+		region: r.one.regions({
+			from: r.provinces.regionId,
+			to: r.regions.regionId
+		}),
+		userUpdatedBy: r.one.users({
+			from: r.provinces.updatedBy,
+			to: r.users.userId,
+			alias: "provinces_updatedBy_users_userId"
+		}),
+	},
+	regions: {
+		barangays: r.many.barangays(),
+		citiesMunicipalities: r.many.citiesMunicipalities(),
+		provinces: r.many.provinces(),
+	},
 	bookings: {
 		committingCourt: r.one.committingCourts({
 			from: r.bookings.committingCourtId,
@@ -33,73 +186,6 @@ export const relations = defineRelations(schema, (r) => ({
 	committingCourts: {
 		bookings: r.many.bookings(),
 		cases: r.many.cases(),
-	},
-	users: {
-		bookingsCreatedBy: r.many.bookings({
-			alias: "bookings_createdBy_users_userId"
-		}),
-		bookingsUpdatedBy: r.many.bookings({
-			alias: "bookings_updatedBy_users_userId"
-		}),
-		casesCreatedBy: r.many.cases({
-			alias: "cases_createdBy_users_userId"
-		}),
-		casesUpdatedBy: r.many.cases({
-			alias: "cases_updatedBy_users_userId"
-		}),
-		cellAssignmentsAssignedBy: r.many.cellAssignments({
-			alias: "cellAssignments_assignedBy_users_userId"
-		}),
-		cellAssignmentsReassignedBy: r.many.cellAssignments({
-			alias: "cellAssignments_reassignedBy_users_userId"
-		}),
-		cellsCreatedBy: r.many.cells({
-			alias: "cells_createdBy_users_userId"
-		}),
-		cellsUpdatedBy: r.many.cells({
-			alias: "cells_updatedBy_users_userId"
-		}),
-		inmateCasesCreatedBy: r.many.inmateCases({
-			alias: "inmateCases_createdBy_users_userId"
-		}),
-		inmateCasesUpdatedBy: r.many.inmateCases({
-			alias: "inmateCases_updatedBy_users_userId"
-		}),
-		personnelAssignmentsAssignedBy: r.many.personnelAssignments({
-			alias: "personnelAssignments_assignedBy_users_userId"
-		}),
-		personnelAssignmentsRelievedBy: r.many.personnelAssignments({
-			alias: "personnelAssignments_relievedBy_users_userId"
-		}),
-		userCreatedBy: r.one.users({
-			from: r.users.createdBy,
-			to: r.users.userId,
-			alias: "users_createdBy_users_userId"
-		}),
-		usersCreatedBy: r.many.users({
-			alias: "users_createdBy_users_userId"
-		}),
-		personnel: r.one.personnel({
-			from: r.users.personnelId,
-			to: r.personnel.personnelId
-		}),
-		userUpdatedBy: r.one.users({
-			from: r.users.updatedBy,
-			to: r.users.userId,
-			alias: "users_updatedBy_users_userId"
-		}),
-		usersUpdatedBy: r.many.users({
-			alias: "users_updatedBy_users_userId"
-		}),
-		visitsCreatedBy: r.many.visits({
-			alias: "visits_createdBy_users_userId"
-		}),
-		visitsOfficerOnDutyId: r.many.visits({
-			alias: "visits_officerOnDutyId_users_userId"
-		}),
-		visitsUpdatedBy: r.many.visits({
-			alias: "visits_updatedBy_users_userId"
-		}),
 	},
 	facilities: {
 		bookings: r.many.bookings(),

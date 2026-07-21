@@ -7,6 +7,7 @@ export const AuthMessages = {
     PASSWORD_MISMATCH: "Password doesn't match. Please try again.",
     
     INVALID_LOGIN: "Invalid email or password. Please try again.",
+    INVALID_EMAIL: "Invalid email format. Please use a valid email.",
     SESSION_EXPIRED: "Session expired. Please log in again."
 } as const;
 

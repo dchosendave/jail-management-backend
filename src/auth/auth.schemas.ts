@@ -23,7 +23,7 @@ export const VerifyOtpSchema = z.object({
 
 const passwordField = z
     .string()
-    .min(8, AuthMessages.PASSWORD_TOO_SHORT )
+    .min(8, AuthMessages.PASSWORD_TOO_SHORT)
     .max(20)
     .refine((password) => /[A-Z]/.test(password), {
         error: AuthMessages.PASSWORD_REQUIRES_UPPERCASE
@@ -47,8 +47,13 @@ export const ChangePasswordSchema = z
     .refine((data) => data.newPassword === data.confirmPassword, {
         error: AuthMessages.PASSWORD_MISMATCH,
         path: ['confirmPassword']
-    })
+    });
+
+export const ForgotPasswordSchema = z.object({
+    email: z.email(AuthMessages.INVALID_EMAIL)
+});
 
 export type SendOtpRequest = z.infer<typeof SendOtpSchema>;
 export type ResendOtpRequest = z.infer<typeof ResendOtpSchema>;
 export type VerifyOtpRequest = z.infer<typeof VerifyOtpSchema>;
+export type ForgotPasswordRequest = z.infer<typeof ForgotPasswordSchema>;
