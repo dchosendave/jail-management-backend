@@ -2,6 +2,7 @@ drop table if exists personnel cascade;
 
 CREATE TABLE personnel (
     personnel_id    INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    user_id integer null,
     employee_number VARCHAR(30) NOT NULL,
     first_name      VARCHAR(60) NOT NULL,
     middle_name     VARCHAR(60),
@@ -22,8 +23,27 @@ CREATE TABLE personnel (
 
     CONSTRAINT uq_personnel_employee_number UNIQUE (employee_number),
     CONSTRAINT uq_personnel_badge_number    UNIQUE (badge_number),
-    CONSTRAINT uq_personnel_email           UNIQUE (email)
+    CONSTRAINT uq_personnel_email           UNIQUE (email),
+    CONSTRAINT uq_personnel_user_id unique (user_id)
 );
+
+INSERT INTO personnel (employee_number, first_name, middle_name, last_name, suffix,
+                       rank, designation, badge_number, email, contact_number,
+                       date_of_birth, date_hired, status, created_by)
+VALUES ('ICTG0001',
+        'LOWIE DAVE',
+        'TEJARES',
+        'DICHOSON',
+        NULL,
+        'SOFTWARE ENGINEER',
+        'COURTS & JUSTICE',
+        'N/A',
+        'lowiedave30@gmail.com',
+        '+639150833518',
+        '2000-10-30',
+        '2026-07-27',
+        'ACTIVE',
+        1);
 
 -- Note: created_by and updated_by reference users.user_id, but the users table
 -- is defined later due to a circular dependency (users.personnel_id → personnel).
