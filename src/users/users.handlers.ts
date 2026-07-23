@@ -1,13 +1,13 @@
 import { type Request, type Response, type NextFunction } from 'express';
 import { db } from '../connection.js';
 import * as z from 'zod';
-import { UsersSchema } from './users.schemas.js';
+import { UserSchema, type User } from './users.schemas.js';
 import bcrypt from 'bcrypt';
 import { personnel, users } from '../../drizzle/schema.js';
 import { eq } from 'drizzle-orm/sql';
 
 export async function createUser(req: Request, res: Response) {
-    const body = req.body as z.infer<typeof UsersSchema>;
+    const body = req.body as User;
 
     try {
         const existing = await db.query.users.findFirst({
