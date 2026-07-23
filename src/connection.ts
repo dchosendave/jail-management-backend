@@ -1,6 +1,6 @@
 import { Pool } from "pg";
 import { drizzle } from 'drizzle-orm/node-postgres';
-import { relations } from "../../drizzle/relations.js";
+import { relations } from "../drizzle/relations.js";
 
 export const pool = new Pool(
     {

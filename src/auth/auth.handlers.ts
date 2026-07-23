@@ -7,7 +7,7 @@ import {
     ForgotPasswordSchema,
     type ForgotPasswordRequest
 } from './auth.schemas.js';
-import { db } from '../db/connection.js';
+import { db } from '../connection.js';
 
 export async function send(req: Request, res: Response) {
     return res.status(201).send({
